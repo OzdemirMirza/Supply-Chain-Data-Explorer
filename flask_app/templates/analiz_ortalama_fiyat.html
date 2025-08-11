@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <title>Ortalama Üstü Fiyatlar - Insight Engine</title>
+    
+</head>
+<body>
+    <div class="container">
+     <h1>Ortalama Fiyatın Üzerinde Fiyat Veren Tedarikçiler</h1>
+
+      {% if sonuclar %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Tedarikçi Adı</th>
+                    <th>Parça Adı</th>
+                    <th>Verilen Fiyat</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sonuc in sonuclar %}
+                <tr>
+                    <td>{{ sonuc.tedarikciadi }}</td>
+                    <td>{{ sonuc.parcaadi }}</td>
+                    <td>{{ "%.2f"|format(sonuc.fiyat) }} TL</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+     {% else %}
+        <p>Analiz için sonuç bulunamadı.</p>
+     {% endif %}
+     <details style="margin-bottom: 2em;">
+        <summary style="cursor: pointer; font-weight: bold; color: #007bff;">
+            Sorgu Çalışma Mantığını Gör ▼
+        </summary>
+        <div style="margin-top: 1em; padding-left: 1em; border-left: 2px solid #dee2e6;">
+            <p>Bu rapor, aşağıdaki akış diyagramında gösterilen mantığa göre çalışır:</p>
+            <img src="{{ url_for('static', filename='images/Ort_drawio.png') }}" alt="Renge Göre Analiz Akış Şeması" class="query-diagram">
+        </div>
+    </details>
+
+     <a href="/" class="home-link">Ana Sayfaya Dön</a>
+   </div>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <title>Renge Göre Analiz - Insight Engine</title>
+    
+</head>
+<body>
+    <div class="container">
+
+
+     <h1>Renge Göre Müşteri Analizi</h1>
+
+     
+
+    <div class="form-container">
+
+     <div class="form-container">
+        <form method="POST">
+            <h2>Parça Renkleri Seçin:</h2>
+            <div class="checkbox-group">
+                {% for renk in tum_renkler %}
+                <label>
+                    <input type="checkbox" name="renkler" value="{{ renk[0] }}" {% if renk[0] in secilen_renkler %}checked{% endif %}>
+                    {{ renk[0] }}
+                </label>
+                {% endfor %}
+            </div>
+            <br>
+            <button type="submit">Analiz Et</button>
+        </form>
+     </div>
+
+     {% if sonuclar is not none %}
+        <h2>Analiz Sonuçları</h2>
+        {% if sonuclar %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Müşteri Adı</th>
+                        <th>Müşteri Soyadı</th>
+                        <th>Sipariş Edilen Parça</th>
+                        <th>Parça Rengi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sonuc in sonuclar %}
+                    <tr>
+                        <td>{{ sonuc.musteriadi }}</td>
+                        <td>{{ sonuc.musterisoyadi }}</td>
+                        <td>{{ sonuc.parcaadi }}</td>
+                        <td>{{ sonuc.renk }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Bu kriterlere uygun sipariş bulunamadı.</p>
+        {% endif %}
+     {% endif %}
+
+     <a href="/" class="home-link">Ana Sayfaya Dön</a>
+     <details style="margin-bottom: 2em;">
+        <summary style="cursor: pointer; font-weight: bold; color: #007bff;">
+            Sorgu Çalışma Mantığını Gör ▼
+        </summary>
+        <div style="margin-top: 1em; padding-left: 1em; border-left: 2px solid #dee2e6;">
+            <p>Bu rapor, aşağıdaki akış diyagramında gösterilen mantığa göre çalışır:</p>
+            <img src="{{ url_for('static', filename='images/Renk_iskelet.drawio.png') }}" alt="Renge Göre Analiz Akış Şeması" class="query-diagram">
+        </div>
+    </details>
+      </body>
+     </div>
+</body>
+</html>

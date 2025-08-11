@@ -1,0 +1,40 @@
+<footer style="margin-top: 3em; border-top: 2px solid #dee2e6; padding-top: 1.5em;">
+    
+    <details {% if explorer_open %}open{% endif %}>
+    
+        <summary style="cursor: pointer; font-size: 1.2em; font-weight: bold;">
+            Veri Setini Görüntüle ▼
+        </summary>
+        <div class="analysis-menu" style="margin-top: 1.5em;">
+            {% for table_name in table_names %}
+                <a href="?table_to_show={{ table_name }}" class="nav-link" style="background-color: #6c757d;">
+                    {{ table_name.capitalize() }}
+                </a>
+            {% endfor %}
+        </div>
+
+        {% if data %}
+            <h2 style="margin-top: 2em;">'{{ selected_table }}' Tablosu İçeriği</h2>
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            {% for col in columns %}
+                                <th>{{ col }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in data %}
+                            <tr>
+                                {% for col in columns %}
+                                    <td>{{ row[col] }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+
+    </details> </footer>    

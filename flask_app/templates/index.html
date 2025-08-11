@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <title>Insight Engine</title>
+   
+</head>
+<body>
+    <div class="container">
+     <h1>Tedarik Zinciri Analiz Paneli</h1>
+     <h2>Analiz Modülleri</h2>
+     <div class="analysis-menu">
+         <a href="/analiz/renk" class="nav-link">
+             Renge Göre Müşteri Analizi
+         </a>
+         <a href="/analiz/tek-tedarikci" class="nav-link">
+             Tek Tedarikçili Ürün Siparişleri
+         </a>
+         <a href="/analiz/en-cok-siparis" class="nav-link">
+             Her Parçanın Sipariş Lideri
+         </a>
+         <a href="/analiz/ortalama-fiyat" class="nav-link">
+             Ortalama Üstü Fiyat Verenler
+         </a>
+     </div>
+
+      {% include '_data_explorer.html' %}
+
+
+        <h2>Veritabanı Şeması (ERD)</h2>
+        <img src="{{ url_for('static', filename='images/DB.png') }}" alt="Veritabanı İlişki Diyagramı" class="query-diagram">
+    
+
+        
+        
+    </div>
+
+   
+</body>
+</html>
