@@ -1,7 +1,7 @@
 # app.py
 from flask import Flask, render_template, request
 import psycopg2
-import psycopg2.extras # Sütun adlarıyla sonuç almak için
+import psycopg2.extras 
 import os
 from dotenv import load_dotenv
 from queries import RENK_SORGUSU_ISKELETI, TEK_TEDARIKCILI_URUN_SIPARISLERI, ORTALAMA_USTU_FIYAT_SORGUSU,EN_COK_SİPARİS_VEREN
@@ -16,8 +16,7 @@ def get_db_connection():
         password=os.environ.get("POSTGRES_PASSWORD")
     )
     return conn
-# YARDIMCI FONKSİYON: Veri Kaşifi için gelen istekleri yönetir.
-# app.py içindeki fonksiyonun DÜZELTİLMİŞ HALİ
+
 
 def handle_data_explorer_request(request):
     allowed_tables = ['tedarikci', 'parca', 'musteri', 'katalog', 'siparis']
@@ -28,7 +27,7 @@ def handle_data_explorer_request(request):
         "selected_table": selected_table,
         "data": None,
         "columns": None,
-        "explorer_open": False # Varsayılan olarak kapalı
+        "explorer_open": False 
     }
 
     if selected_table and selected_table in allowed_tables:
@@ -43,8 +42,7 @@ def handle_data_explorer_request(request):
             context["data"] = data
             context["columns"] = list(data[0].keys())
 
-        # DÜZELTME: Girinti hatası düzeltildi ve gereksiz 'if' kaldırıldı.
-        # Bu satır, bir tablo seçildiği sürece çalışır.
+       
         context["explorer_open"] = True
     
     return context
@@ -57,7 +55,7 @@ def index():
    
     return render_template('index.html', **explorer_context)
 
-# YENİ EKLENEN FONKSİYON 3
+
 @app.route('/analiz/en-cok-siparis')
 def analiz_en_cok_siparis():
     conn = get_db_connection()
@@ -68,11 +66,11 @@ def analiz_en_cok_siparis():
     conn.close()
     return render_template('analiz_en_cok_siparis.html', sonuclar=sonuclar)
 
-# YENİ EKLENEN FONKSİYON
+
 @app.route('/analiz/renk', methods=['GET', 'POST'])
 def analiz_renk():
     conn = get_db_connection()
-    # Önce formdaki checkbox'ları doldurmak için tüm renkleri alalım
+   
     cur = conn.cursor()
     cur.execute("SELECT DISTINCT renk FROM Parca WHERE renk IS NOT NULL ORDER BY renk;")
     tum_renkler = cur.fetchall()
@@ -81,7 +79,7 @@ def analiz_renk():
     sonuclar = None
     secilen_renkler = []
 
-     # Eğer kullanıcı butona basarak formu gönderdiyse (POST metodu)
+     
     if request.method == 'POST':
         secilen_renkler = request.form.getlist('renkler')
         if secilen_renkler:
@@ -93,14 +91,14 @@ def analiz_renk():
             cur.close()
 
     conn.close()
-    # Hem tüm renkleri hem de sonuçları HTML'e gönder
+    
     return render_template('analiz_renk.html', 
                            tum_renkler=tum_renkler, 
                            sonuclar=sonuclar, 
                            secilen_renkler=secilen_renkler)
 
 
-    # YENİ EKLENEN FONKSİYON 2
+    
 @app.route('/analiz/tek-tedarikci')
 def analiz_tek_tedarikci():
     conn = get_db_connection()
@@ -113,7 +111,7 @@ def analiz_tek_tedarikci():
 
 
    
-# YENİ EKLENEN FONKSİYON 4
+
 @app.route('/analiz/ortalama-fiyat')
 def analiz_ortalama_fiyat():
     conn = get_db_connection()
@@ -124,4 +122,4 @@ def analiz_ortalama_fiyat():
     conn.close()
     return render_template('analiz_ortalama_fiyat.html', sonuclar=sonuclar)
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5001, debug=True) # debug=True ekledik
+    app.run(host='0.0.0.0', port=5001, debug=True) 
