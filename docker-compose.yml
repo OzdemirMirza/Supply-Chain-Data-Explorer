@@ -1,7 +1,7 @@
-# docker-compose.yml (Güncellenmiş Hali)
+
 
 services:
-  # 1. Servis: Veritabanı (Bu kısım aynı kalıyor)
+ 
   db:
     image: postgres:13
     container_name: tedarikci_db
@@ -14,26 +14,21 @@ services:
     ports:
       - "5432:5432"
 
-  # 2. Servis: Web Uygulaması (YENİ EKLENEN KISIM)
   web:
     build:
       context: ./flask_app
       dockerfile: dockerfile.dev
-    # ... diğer ayarlar ...
+  
     container_name: insight_engine_web # Projemizin ismini kullanalım
     
-    # Bilgisayarımızdaki 5000 portunu, konteynerin 5001 portuna bağla.
-    # (app.py içinde 5001 portunda çalışmasını söylemiştik)
     ports:
       - "5005:5001"
       
-    # Bu ortam değişkenleri, app.py'nin veritabanına bağlanmak için kullanacağı bilgilerdir.
     environment:
       - POSTGRES_USER=kullanici
       - POSTGRES_PASSWORD=sifre
       - POSTGRES_DB=tedarikci_app
       
-    # ÇOK ÖNEMLİ: 'web' servisini başlatmadan önce 'db' servisinin
-    # tamamen ayağa kalkmasını bekle. Bu, bağlantı hatalarını önler.
+ 
     depends_on:
       - db
