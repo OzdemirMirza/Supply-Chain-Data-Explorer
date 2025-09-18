@@ -1,5 +1,4 @@
-# flask_app/queries.py
-# Bu dosya, uygulamamızda kullanacağımız SQL sorgu iskeletlerini barındırır.
+
 
 
 EN_COK_SİPARİS_VEREN="""SELECT
