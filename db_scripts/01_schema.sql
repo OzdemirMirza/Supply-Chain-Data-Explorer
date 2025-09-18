@@ -1,4 +1,4 @@
--- Bu dosya, tedarik zinciri veritabanı şemasını oluşturur.
+
 
 CREATE TABLE Tedarikci (
     tedarikciNo SERIAL PRIMARY KEY,
@@ -20,19 +20,16 @@ CREATE TABLE Musteri (
     musteriSoyadi VARCHAR(50) NOT NULL
 );
 
--- Şimdi ilişki tablolar
 
--- Katalog tablosu, Tedarikci ve Parca arasında N-N (çoktan çoğa) ilişki kurar.
 CREATE TABLE Katalog (
     tedarikciNo INT REFERENCES Tedarikci(tedarikciNo),
     parcaNo INT REFERENCES Parca(parcaNo),
     fiyat NUMERIC(10, 2) NOT NULL,
-    PRIMARY KEY (tedarikciNo, parcaNo) -- Bir tedarikçi bir parçayı listeye sadece bir kez ekleyebilir.
+    PRIMARY KEY (tedarikciNo, parcaNo) 
 );
 
--- Siparis tablosu, tüm işlemleri bir araya getiren ana işlem tablosudur.
 CREATE TABLE Siparis (
-    siparis_id SERIAL PRIMARY KEY, -- Her bir sipariş satırını benzersiz yapmak için kendi ID'sini ekledik.
+    siparis_id SERIAL PRIMARY KEY, 
     musteriNo INT REFERENCES Musteri(musteriNo),
     tedarikciNo INT REFERENCES Tedarikci(tedarikciNo),
     parcaNo INT REFERENCES Parca(parcaNo),
