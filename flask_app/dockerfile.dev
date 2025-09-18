@@ -1,17 +1,15 @@
-# Adım 1: Temel imajı seç. Python 3.9'un kurulu olduğu hafif bir Linux imajıyla başlıyoruz.
+
 FROM python:3.9-slim
 
-# Adım 2: Konteyner içindeki çalışma klasörünü belirle.
+
 WORKDIR /app
 
-# Adım 3: Önce sadece bağımlılık dosyasını kopyala ve kur.
-# Bu, kodumuz değiştiğinde her seferinde kütüphaneleri tekrar kurmamızı engeller (Docker katman önbellekleme).
+
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-# Adım 4: Uygulama kodumuzun geri kalanını kopyala.
+
 COPY . .
 
-# Adım 5: Konteyner başladığında hangi komutun çalışacağını belirt.
-# Flask uygulamamızı başlatıyoruz.
+
 CMD ["python", "app.py"]
